@@ -7,30 +7,56 @@ const protect = require("../middleware/auth");
 
 router.get("/", protect, async (req, res) => {
   try {
+    // ---------------------------------------------------------
     // 1. Fetch Applications (Direct Hires)
+    // ---------------------------------------------------------
     const appsRaw = await Application.find({ status: "Hired" })
-      .populate("jobId", "title department") // Populates the 'jobId' field with Job details
+      .populate("position", "title department") // Get Job Title
+      .populate("candidate", "firstName lastName email candidateName") // 🟢 FIX: Fetch Linked Candidate Details
       .populate("createdBy", "profile email") 
       .lean();
 
     const apps = appsRaw.map((app) => {
-      let name = app.candidateName;
-      if (!name && app.createdBy?.profile) {
-        name = `${app.createdBy.profile.firstName} ${app.createdBy.profile.lastName}`;
+      let name = "Unknown Candidate";
+      let email = app.email || "";
+
+      // 🟢 FIX: Strategy to find the name
+      // 1. Check inside the populated 'candidate' reference (Primary source)
+      if (app.candidate) {
+        if (app.candidate.candidateName) {
+           name = app.candidate.candidateName;
+        } else if (app.candidate.firstName) {
+           name = `${app.candidate.firstName} ${app.candidate.lastName || ""}`.trim();
+        }
+        // Use candidate email if app email is missing
+        if (!email && app.candidate.email) email = app.candidate.email;
       }
-      if (!name || name.trim() === "") {
-        name = app.createdBy?.email || "Unknown Candidate";
+
+      // 2. Check direct fields on Application (Fallback)
+      if (name === "Unknown Candidate" && app.candidateName) {
+         name = app.candidateName;
       }
+
+      // 3. Check createdBy profile (Last resort - e.g. for manual entries)
+      if (name === "Unknown Candidate" && app.createdBy?.profile) {
+         name = `${app.createdBy.profile.firstName} ${app.createdBy.profile.lastName}`.trim();
+      }
+      
+      // 4. Final Fallback if name is still empty
+      if (!name || name === "Unknown Candidate") {
+          name = email || "Unknown Candidate"; 
+      }
+
+      // Position & Department Safety Checks
+      const positionTitle = app.position?.title || "Unknown Position";
+      const departmentName = app.position?.department || "-";
 
       return {
         _id: app._id,
         candidateName: name,
-        email: app.email || app.createdBy?.email,
-        
-        // 🔴 FIX: Access title from 'jobId' object, NOT 'app.position' directly
-        position: app.jobId?.title || app.position || "Unknown Position", 
-        
-        department: app.jobId?.department || "-", 
+        email: email,
+        position: positionTitle, 
+        department: departmentName, 
         status: app.status,
         appliedAt: app.appliedAt,
         onboardingStatus: app.onboardingStatus || "Pending",
@@ -38,13 +64,15 @@ router.get("/", protect, async (req, res) => {
       };
     });
 
+    // ---------------------------------------------------------
     // 2. Fetch Submissions (Agency Hires)
+    // ---------------------------------------------------------
     const submissionsRaw = await Submission.find()
       .populate({
         path: "candidate",
         match: { status: "Hired" }, 
       })
-      .populate("position", "title department") // Populates the 'position' field (Job)
+      .populate("position", "title department") 
       .lean();
 
     const submissions = submissionsRaw
@@ -55,11 +83,8 @@ router.get("/", protect, async (req, res) => {
           _id: sub.candidate._id, 
           candidateName: `${sub.candidate.firstName} ${sub.candidate.lastName}`,
           email: sub.candidate.email,
-          
-          // ✅ This was already correct for submissions
           position: sub.position.title || "Unknown Position",
-          
-          department: sub.position.department,
+          department: sub.position.department || "-",
           status: sub.candidate.status,
           appliedAt: sub.createdAt,
           onboardingStatus: sub.candidate.onboardingStatus || "Pending",
@@ -68,28 +93,36 @@ router.get("/", protect, async (req, res) => {
       })
       .filter((item) => item !== null);
 
+    // ---------------------------------------------------------
     // 3. Merge & Sort
+    // ---------------------------------------------------------
     const unifiedList = [...apps, ...submissions].sort(
       (a, b) => new Date(b.appliedAt) - new Date(a.appliedAt)
     );
 
     res.json(unifiedList);
+
   } catch (err) {
     console.error("Error fetching onboarding:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
+// ---------------------------------------------------------
+// Update Onboarding Status
+// ---------------------------------------------------------
 router.put("/:id/status", protect, async (req, res) => {
   try {
     const { onboardingStatus } = req.body;
 
+    // Try updating Application first
     let updated = await Application.findByIdAndUpdate(
       req.params.id,
       { onboardingStatus },
       { new: true }
     );
 
+    // If not found, try updating Candidate (Agency hire)
     if (!updated) {
       updated = await Candidate.findByIdAndUpdate(
         req.params.id,

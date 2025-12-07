@@ -6,7 +6,8 @@ import {
   FaChevronDown,
   FaVideo,
   FaMapMarkerAlt,
-  FaLink
+  FaLink,
+  FaSortAmountDown // 🟢 Added Sort Icon
 } from "react-icons/fa";
 import "./CandidateInbox.css"; 
 
@@ -15,9 +16,10 @@ const CandidateInbox = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Search and Filter States
+  // Search, Filter, and Sort States
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
+  const [sortOption, setSortOption] = useState("newest"); // 🟢 Added Sort State
 
   useEffect(() => {
     const fetchInterviews = async () => {
@@ -38,7 +40,7 @@ const CandidateInbox = () => {
     fetchInterviews();
   }, []);
 
-  // --- Date Parsing Helper (Kept strictly from your original code) ---
+  // --- Date Parsing Helper ---
   const parseDateHelper = (dateStr) => {
     if (!dateStr) return null;
     const dmyPattern = /^\d{1,2}-\d{1,2}-\d{4}/;
@@ -89,17 +91,35 @@ const CandidateInbox = () => {
     });
   };
 
-  // --- Filtering Logic ---
-  const filteredInterviews = interviews.filter((interview) => {
-    const position = interview.jobPosition ? interview.jobPosition.toLowerCase() : "";
-    const interviewer = interview.interviewerName ? interview.interviewerName.toLowerCase() : "";
-    const term = searchTerm.toLowerCase();
+  // --- 🟢 Processing Logic: Filter THEN Sort ---
+  const processedInterviews = React.useMemo(() => {
+    // 1. Filter
+    let items = interviews.filter((interview) => {
+        const position = interview.jobPosition ? interview.jobPosition.toLowerCase() : "";
+        const interviewer = interview.interviewerName ? interview.interviewerName.toLowerCase() : "";
+        const term = searchTerm.toLowerCase();
+    
+        const matchesSearch = position.includes(term) || interviewer.includes(term);
+        const matchesFilter = filterStatus === "All" || (interview.status && interview.status.toLowerCase() === filterStatus.toLowerCase());
+    
+        return matchesSearch && matchesFilter;
+    });
 
-    const matchesSearch = position.includes(term) || interviewer.includes(term);
-    const matchesFilter = filterStatus === "All" || (interview.status && interview.status.toLowerCase() === filterStatus.toLowerCase());
+    // 2. Sort
+    items.sort((a, b) => {
+        const dateA = parseDateHelper(a.date) || new Date(0);
+        const dateB = parseDateHelper(b.date) || new Date(0);
 
-    return matchesSearch && matchesFilter;
-  });
+        if (sortOption === "newest") {
+            return dateB - dateA;
+        } else {
+            return dateA - dateB;
+        }
+    });
+
+    return items;
+  }, [interviews, searchTerm, filterStatus, sortOption]);
+
 
   if (loading) {
     return (
@@ -116,9 +136,10 @@ const CandidateInbox = () => {
 
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
-      {/* --- Search & Filters (Styled to match theme) --- */}
+      {/* --- Search, Filters & Sort --- */}
       <div className="ci-controls">
-          <div className="ci-search-wrapper">
+          {/* Search */}
+          <div className="ci-search-wrapper" style={{ flex: 2 }}>
               <FaSearch className="ci-search-icon" />
               <input 
                   type="text" 
@@ -129,7 +150,8 @@ const CandidateInbox = () => {
               />
           </div>
           
-          <div className="ci-filter-wrapper">
+          {/* Filter */}
+          <div className="ci-filter-wrapper" style={{ flex: 1 }}>
               <FaFilter className="ci-filter-icon" />
               <select 
                   value={filterStatus} 
@@ -144,10 +166,24 @@ const CandidateInbox = () => {
               </select>
               <FaChevronDown className="ci-filter-chevron" />
           </div>
+
+          {/* 🟢 Sort Dropdown */}
+          <div className="ci-filter-wrapper" style={{ flex: 1 }}>
+              <FaSortAmountDown className="ci-filter-icon" />
+              <select 
+                  value={sortOption} 
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="ci-filter-select"
+              >
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+              </select>
+              <FaChevronDown className="ci-filter-chevron" />
+          </div>
       </div>
 
       {/* --- List Content --- */}
-      {!loading && filteredInterviews.length === 0 ? (
+      {!loading && processedInterviews.length === 0 ? (
         <div className="ci-empty">
            {interviews.length > 0 ? (
               <p>No interviews match your search or filter.</p>
@@ -157,10 +193,10 @@ const CandidateInbox = () => {
         </div>
       ) : (
         <div className="ci-list">
-          {filteredInterviews.map((interview) => (
+          {processedInterviews.map((interview) => (
             <div key={interview._id} className="ci-card">
               
-              {/* 1. Header Row: Interviewer/Candidate Name & Date */}
+              {/* 1. Header Row: Interviewer Name & Date */}
               <div className="ci-card-header">
                 <h4>
                    Interviewer: {interview.interviewerName || "TBD"}
@@ -170,12 +206,12 @@ const CandidateInbox = () => {
                 </span>
               </div>
 
-              {/* 2. Subject Line (Position) - Purple Text */}
+              {/* 2. Subject Line (Position) */}
               <div className="ci-position">
                  Position: {interview.jobPosition || "N/A"}
               </div>
 
-              {/* 3. Message Body (Details) - Grey Text */}
+              {/* 3. Details */}
               <div className="ci-details">
                 <div className="detail-row">
                    {interview.interviewMode === "Online" ? <FaVideo className="icon-small"/> : <FaMapMarkerAlt className="icon-small"/>}

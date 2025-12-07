@@ -3,8 +3,9 @@ const router = express.Router();
 const Application = require("../models/Application");
 const Candidate = require("../models/Candidate");
 const Submission = require("../models/Submission");
-const Position = require("../models/Position"); // Ensure this matches your model export name (e.g. 'Job' or 'Position')
+const Position = require("../models/Position"); 
 const Message = require("../models/Message");   
+const Interview = require("../models/Interview"); // ✅ ADDED: Import Interview Model
 const protect = require("../middleware/auth");
 
 // --- GET All Applications (with Safety Checks) ---
@@ -234,6 +235,62 @@ router.put("/:id/review", protect, async (req, res) => {
     res.json({ message: "Status updated to Under Review", application: updatedDoc });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ✅ ADDED: Schedule Interview Route
+router.put("/:id/schedule", protect, async (req, res) => {
+  try {
+    const { interviewDate, interviewTime, notes } = req.body;
+    
+    // 1. Find the Application and populate necessary fields
+    const application = await Application.findById(req.params.id)
+      .populate('candidate')
+      .populate('position'); // Ensure position is populated to get title
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    // 2. Create the Interview Record
+    const newInterview = new Interview({
+      candidateFirstName: application.candidate.firstName,
+      candidateLastName: application.candidate.lastName,
+      // Fallback if position is just an ID or missing title
+      jobPosition: application.position?.title || "Position", 
+      date: `${interviewDate} ${interviewTime}`, // Combine date and time string
+      status: "Scheduled",
+      result: "Pending",
+      interviewMode: "Online", // Default
+      notes: notes || "",
+      // Link to the user who scheduled it (likely the hiring manager)
+      interviewerId: req.user._id, 
+      interviewerName: req.user.profile ? `${req.user.profile.firstName} ${req.user.profile.lastName}` : req.user.email
+    });
+
+    await newInterview.save();
+
+    // 3. Update Application Status and add to history array
+    application.status = "Interview";
+    
+    if (!application.interviews) application.interviews = [];
+    application.interviews.push({
+      date: new Date(`${interviewDate}T${interviewTime}`),
+      time: interviewTime,
+      status: "Scheduled",
+      notes: notes
+    });
+
+    await application.save();
+
+    // 4. Also update Candidate Status
+    await Candidate.findByIdAndUpdate(application.candidate._id, { status: "Interview" });
+
+    res.json({ message: "Interview scheduled successfully", application });
+
+  } catch (err) {
+    console.error("Error scheduling interview:", err);
+    res.status(500).json({ message: "Server error scheduling interview" });
   }
 });
 

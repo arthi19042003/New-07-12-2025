@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Container, Card, Button, Table, Spinner, Row, Col, Form } from "react-bootstrap";
-import { FaSearch, FaFilter, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { Container, Card, Button, Table, Spinner, Row, Col, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { 
+  FaSearch, 
+  FaFilter, 
+  FaChevronLeft, 
+  FaChevronRight, 
+  FaSortAmountDown,
+  FaClock,        // Icon for Pending
+  FaSync,         // Icon for In Progress
+  FaCheck         // 🟢 CHANGED: Icon for Completed (Simple Tick)
+} from 'react-icons/fa';
 import toast, { Toaster } from "react-hot-toast";
 import './OnboardingDashboard.css';
 
@@ -10,10 +19,30 @@ export default function OnboardingDashboard() {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // --- Filter & Pagination State ---
+  // --- Filter, Sort & Pagination State ---
   const [filterText, setFilterText] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [sortOption, setSortOption] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // --- Icon Styles ---
+  const iconStyle = {
+    cursor: "pointer",
+    fontSize: "1.2rem",
+    transition: "transform 0.2s ease-in-out",
+    background: "transparent",
+    border: "none",
+    padding: "5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  };
+
+  const disabledIconStyle = {
+    ...iconStyle,
+    color: "#cbd5e1", // Grey
+    cursor: "not-allowed"
+  };
 
   const fetchOnboarding = async () => {
     try {
@@ -23,23 +52,37 @@ export default function OnboardingDashboard() {
           "Cache-Control": "no-cache",
         },
       });
+
+      // Check if response is JSON
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Received non-JSON response from server");
+      }
+
       const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || `Server Error: ${res.status}`);
+      }
       
-      // FIX: Ensure we only set state if data is an array
+      // Validate Data Structure
       if (Array.isArray(data)) {
         setCandidates(data);
       } else if (data && Array.isArray(data.data)) {
-         // Handle scenarios where API returns { success: true, data: [] }
          setCandidates(data.data);
       } else {
          console.warn("API response is not an array:", data);
-         setCandidates([]); // Fallback to empty array
+         setCandidates([]); 
       }
 
     } catch (err) {
       console.error("Error fetching onboarding list:", err);
-      toast.error("Failed to load onboarding data");
-      setCandidates([]); // Fallback on error
+      if(err.message.includes("500") || err.message.includes("Server Error")) {
+        toast.error("Backend Error (500). Check your server terminal.");
+      } else {
+        toast.error("Failed to load data.");
+      }
+      setCandidates([]); 
     } finally {
       setLoading(false);
     }
@@ -69,7 +112,6 @@ export default function OnboardingDashboard() {
 
       if (res.ok) {
         toast.success(`Status updated to ${onboardingStatus}`);
-        // Do not re-fetch to preserve the optimistic update
       } else {
         throw new Error("Failed to update");
       }
@@ -80,16 +122,14 @@ export default function OnboardingDashboard() {
     }
   };
 
-  // --- FILTER & PAGINATION LOGIC ---
+  // --- FILTER, SORT & PAGINATION LOGIC ---
   const filteredCandidates = useMemo(() => {
-    // FIX: Add safety check. If candidates is null/undefined/object, return empty array.
-    if (!candidates || !Array.isArray(candidates)) {
-        return [];
-    }
+    if (!candidates || !Array.isArray(candidates)) return [];
 
     let items = [...candidates];
     const filterLower = filterText.toLowerCase();
 
+    // 1. Filter
     items = items.filter(c => {
       if (statusFilter !== 'All' && c.onboardingStatus !== statusFilter) return false;
 
@@ -102,6 +142,25 @@ export default function OnboardingDashboard() {
       return true;
     });
 
+    // 2. Sort Logic
+    items.sort((a, b) => {
+        switch(sortOption) {
+            case "newest": 
+                return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+            case "oldest": 
+                return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+            case "candidate_asc": 
+                return (a.candidateName || "").localeCompare(b.candidateName || "");
+            case "position_asc": 
+                return (a.position || "").localeCompare(b.position || "");
+            case "status_asc": 
+                return (a.onboardingStatus || "").localeCompare(b.onboardingStatus || "");
+            default:
+                return 0;
+        }
+    });
+
+    // 3. Pagination Reset
     if (currentPage > Math.ceil(items.length / ITEMS_PER_PAGE) && items.length > 0) {
         setCurrentPage(1);
     } else if (items.length === 0 && currentPage !== 1) {
@@ -109,7 +168,7 @@ export default function OnboardingDashboard() {
     }
 
     return items;
-  }, [candidates, filterText, statusFilter, currentPage]);
+  }, [candidates, filterText, statusFilter, sortOption, currentPage]);
 
   const totalItems = filteredCandidates.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
@@ -122,6 +181,11 @@ export default function OnboardingDashboard() {
 
   const handlePrev = () => { if (currentPage > 1) setCurrentPage(prev => prev - 1); };
   const handleNext = () => { if (currentPage < totalPages) setCurrentPage(prev => prev + 1); };
+
+  // Helper for tooltips
+  const renderTooltip = (props, text) => (
+    <Tooltip id="button-tooltip" {...props}>{text}</Tooltip>
+  );
 
   if (loading)
     return (
@@ -141,9 +205,10 @@ export default function OnboardingDashboard() {
           <h2 className="fw-bold" style={{ color: "#5b21b6" }}>Onboarding Dashboard</h2>
       </div>
 
-      {/* --- FILTERS SECTION --- */}
+      {/* --- FILTERS & SORT ROW --- */}
       <Row className="mb-4 g-3">
-        <Col md={8}>
+        {/* Search */}
+        <Col md={6}>
           <div className="od-search-box position-relative bg-white rounded shadow-sm p-2">
              <FaSearch className="od-search-icon text-primary ms-2" />
              <Form.Control
@@ -155,7 +220,9 @@ export default function OnboardingDashboard() {
              />
           </div>
         </Col>
-        <Col md={4}>
+
+        {/* Filter Status */}
+        <Col md={3}>
             <div className="od-filter-box shadow-sm">
               <FaFilter className="text-muted ms-2 me-2" />
               <Form.Select
@@ -168,6 +235,25 @@ export default function OnboardingDashboard() {
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Completed">Completed</option>
+              </Form.Select>
+            </div>
+        </Col>
+
+        {/* Sort Dropdown */}
+        <Col md={3}>
+            <div className="od-filter-box shadow-sm">
+              <FaSortAmountDown className="text-muted ms-2 me-2" />
+              <Form.Select
+                value={sortOption}
+                onChange={(e) => { setSortOption(e.target.value); setCurrentPage(1); }}
+                className="border-0 shadow-none fw-semibold"
+                style={{ cursor: 'pointer', width: '100%' }}
+              >
+                <option value="newest">Sort by: Newest</option>
+                <option value="oldest">Sort by: Oldest</option>
+                <option value="candidate_asc">Sort by: Candidate (A-Z)</option>
+                <option value="position_asc">Sort by: Position</option>
+                <option value="status_asc">Sort by: Status</option>
               </Form.Select>
             </div>
         </Col>
@@ -184,7 +270,7 @@ export default function OnboardingDashboard() {
                     <th className="p-3">Department</th>
                     <th className="p-3">Hiring Status</th>
                     <th className="p-3">Onboarding Progress</th>
-                    <th className="p-3 text-center" style={{ minWidth: "300px" }}>Actions</th>
+                    <th className="p-3 text-center" style={{ minWidth: "220px" }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -216,40 +302,41 @@ export default function OnboardingDashboard() {
                         </td>
 
                         <td className="p-3 text-center">
-                            <div className="d-flex flex-row gap-2 justify-content-center align-items-center">
-                            {/* Pending Button */}
-                            <Button
-                                size="sm"
-                                className="od-purple-btn"
-                                style={{ whiteSpace: "nowrap" }}
-                                onClick={() => updateStatus(c._id, "Pending")}
-                                // DISABLED if status is "Pending" OR "Completed"
-                                disabled={c.onboardingStatus === "Pending" || c.onboardingStatus === "Completed"}
-                            >
-                                Pending
-                            </Button>
+                            <div className="d-flex flex-row gap-3 justify-content-center align-items-center">
+                            
+                              {/* 1. Pending Icon (Orange) */}
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Mark as Pending")}>
+                                <button
+                                  style={c.onboardingStatus === "Pending" || c.onboardingStatus === "Completed" ? disabledIconStyle : { ...iconStyle, color: "#f59e0b" }}
+                                  onClick={() => updateStatus(c._id, "Pending")}
+                                  disabled={c.onboardingStatus === "Pending" || c.onboardingStatus === "Completed"}
+                                >
+                                  <FaClock />
+                                </button>
+                              </OverlayTrigger>
 
-                            {/* In Progress Button */}
-                            <Button
-                                size="sm"
-                                className="od-purple-btn"
-                                style={{ whiteSpace: "nowrap" }}
-                                onClick={() => updateStatus(c._id, "In Progress")}
-                                disabled={c.onboardingStatus === "In Progress"}
-                            >
-                                In Progress
-                            </Button>
+                              {/* 2. In Progress Icon (Blue/Purple) */}
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Mark In Progress")}>
+                                <button
+                                  style={c.onboardingStatus === "In Progress" || c.onboardingStatus === "Completed" ? disabledIconStyle : { ...iconStyle, color: "#3b82f6" }}
+                                  onClick={() => updateStatus(c._id, "In Progress")}
+                                  disabled={c.onboardingStatus === "In Progress" || c.onboardingStatus === "Completed"}
+                                >
+                                  <FaSync />
+                                </button>
+                              </OverlayTrigger>
 
-                            {/* Completed Button */}
-                            <Button
-                                size="sm"
-                                className="od-purple-btn"
-                                style={{ whiteSpace: "nowrap" }}
-                                onClick={() => updateStatus(c._id, "Completed")}
-                                disabled={c.onboardingStatus === "Completed"}
-                            >
-                                Completed
-                            </Button>
+                              {/* 3. Completed Icon (Green) - 🟢 UPDATED to FaCheck */}
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Mark Completed")}>
+                                <button
+                                  style={c.onboardingStatus === "Completed" ? disabledIconStyle : { ...iconStyle, color: "#10b981" }}
+                                  onClick={() => updateStatus(c._id, "Completed")}
+                                  disabled={c.onboardingStatus === "Completed"}
+                                >
+                                  <FaCheck /> 
+                                </button>
+                              </OverlayTrigger>
+
                             </div>
                         </td>
                         </tr>

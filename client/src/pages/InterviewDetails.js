@@ -151,11 +151,11 @@ function InterviewDetails() {
   };
 
   const getCandidatePosition = (c) => {
-     if (!c) return "";
-     if (c.jobId && c.jobId.title) return c.jobId.title;
-     if (c.position) return c.position;
-     if (c.jobPosition) return c.jobPosition;
-     return "Unknown Position";
+      if (!c) return "";
+      if (c.jobId && c.jobId.title) return c.jobId.title;
+      if (c.position) return c.position;
+      if (c.jobPosition) return c.jobPosition;
+      return "Unknown Position";
   };
 
   const handleCandidateChange = (e) => {
@@ -434,7 +434,7 @@ function InterviewDetails() {
             </div>
           </div>
           
-          {id && (
+          {/* 🟢 CHANGED: Removed {id && (...)} check here, so this section is always visible */}
             <>
                 <h3 className="id-section-label">Evaluation Results</h3>
                 <div className="id-grid-2">
@@ -469,8 +469,7 @@ function InterviewDetails() {
                   />
                 </div>
             </>
-          )}
-
+          
           {message && <div style={{ padding: '10px', textAlign:'center', background: message.includes('❌') ? '#fee2e2' : '#dcfce7', color: message.includes('❌') ? 'red' : 'green', borderRadius: '8px', marginTop: '10px' }}>{message}</div>}
           
           <button type="submit" className="id-btn-purple">
@@ -542,7 +541,6 @@ function InterviewDetails() {
                   <span>{it.jobPosition || "N/A"}</span>
                   <span>{it.interviewerName || "Unassigned"}</span>
                   
-                  {/* 🟢 UPDATED: Removed id-status-pill class, now just plain text */}
                   <span>{it.status || "Pending"}</span>
                   
                   <span>{it.result || "Pending"}</span>

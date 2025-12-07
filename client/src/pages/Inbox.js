@@ -5,18 +5,25 @@ import {
   FaEnvelope, 
   FaSearch, 
   FaFilter, 
-  FaChevronDown 
+  FaChevronDown,
+  FaSortAmountDown, // Added for Sort
+  FaChevronLeft,    // Added for Pagination
+  FaChevronRight    // Added for Pagination
 } from "react-icons/fa";
 import "./Inbox.css";
+
+const ITEMS_PER_PAGE = 5; // Defined items per page
 
 const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // --- Search & Filter States ---
+  // --- Search, Filter, Sort & Pagination States ---
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
+  const [sortOption, setSortOption] = useState("newest"); // 🟢 Added Sort State
+  const [currentPage, setCurrentPage] = useState(1);      // 🟢 Added Pagination State
 
   // --- Fetch Messages ---
   const fetchMessages = async () => {
@@ -47,11 +54,9 @@ const Inbox = () => {
     const targetMsg = messages.find((m) => m._id === id);
     if (!targetMsg) return;
 
-    // Determine current logical status
     const isCurrentlyUnread = targetMsg.status === "unread" || targetMsg.status === false;
     const newStatus = isCurrentlyUnread ? "read" : "unread";
 
-    // Optimistic Update
     setMessages((prevMessages) =>
       prevMessages.map((m) =>
         m._id === id ? { ...m, status: newStatus } : m
@@ -62,7 +67,6 @@ const Inbox = () => {
       await api.put(`/inbox/${id}/status`, { status: newStatus });
     } catch (err) {
       console.error("Error updating status:", err);
-      // Revert if error
       setMessages((prevMessages) =>
         prevMessages.map((m) =>
           m._id === id ? { ...m, status: targetMsg.status } : m
@@ -78,10 +82,7 @@ const Inbox = () => {
     if (isNaN(date.getTime())) return "Just now";
     
     return date.toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric"
+      weekday: "short", month: "short", day: "numeric", year: "numeric"
     });
   };
 
@@ -92,23 +93,49 @@ const Inbox = () => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  // --- Filtering Logic ---
-  const filteredMessages = messages.filter((msg) => {
-    // 1. Prepare data for search
+  // --- 🟢 PROCESS DATA: Filter -> Sort -> Paginate ---
+  
+  // 1. Filter
+  let processedMessages = messages.filter((msg) => {
     const sender = msg.from ? msg.from.toLowerCase() : "";
     const subject = msg.subject ? msg.subject.toLowerCase() : "";
     const term = searchTerm.toLowerCase();
 
-    // 2. Determine Read/Unread status string
     const isUnread = msg.status === "unread" || msg.status === false;
     const msgStatusStr = isUnread ? "unread" : "read";
 
-    // 3. Match Logic
     const matchesSearch = sender.includes(term) || subject.includes(term);
     const matchesFilter = filterStatus === "All" || msgStatusStr === filterStatus.toLowerCase();
 
     return matchesSearch && matchesFilter;
   });
+
+  // 2. Sort
+  processedMessages.sort((a, b) => {
+    const dateA = new Date(a.createdAt || 0);
+    const dateB = new Date(b.createdAt || 0);
+    if (sortOption === "newest") return dateB - dateA;
+    if (sortOption === "oldest") return dateA - dateB;
+    return 0;
+  });
+
+  // 3. Pagination Logic
+  const totalItems = processedMessages.length;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
+
+  // Reset page if search/filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterStatus, sortOption]);
+
+  const paginatedMessages = processedMessages.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handlePrev = () => { if (currentPage > 1) setCurrentPage(prev => prev - 1); };
+  const handleNext = () => { if (currentPage < totalPages) setCurrentPage(prev => prev + 1); };
+
 
   // --- Loading State ---
   if (loading) {
@@ -124,10 +151,11 @@ const Inbox = () => {
       <h2>Inbox</h2>
       <p className="subtitle">Check your notifications, application updates, and system alerts.</p>
 
-      {/* --- Search & Filter Controls --- */}
+      {/* --- Controls Row --- */}
       <div className="inbox-controls">
-        {/* Updated class name to be specific */}
-        <div className="inbox-search-wrapper">
+        
+        {/* Search */}
+        <div className="inbox-search-wrapper" style={{ flex: 2 }}>
           <FaSearch className="inbox-search-icon" />
           <input 
             type="text" 
@@ -138,8 +166,8 @@ const Inbox = () => {
           />
         </div>
         
-        {/* Updated class name to be specific */}
-        <div className="inbox-filter-wrapper">
+        {/* Filter */}
+        <div className="inbox-filter-wrapper" style={{ flex: 1 }}>
           <FaFilter className="inbox-filter-icon" />
           <select 
             value={filterStatus} 
@@ -152,11 +180,26 @@ const Inbox = () => {
           </select>
           <FaChevronDown className="inbox-filter-chevron" />
         </div>
+
+        {/* 🟢 Sort (New) */}
+        <div className="inbox-filter-wrapper" style={{ flex: 1 }}>
+          <FaSortAmountDown className="inbox-filter-icon" />
+          <select 
+            value={sortOption} 
+            onChange={(e) => setSortOption(e.target.value)}
+            className="inbox-filter-select"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+          <FaChevronDown className="inbox-filter-chevron" />
+        </div>
+
       </div>
 
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
-      {!loading && filteredMessages.length === 0 && !error ? (
+      {!loading && paginatedMessages.length === 0 && !error ? (
         <div className="empty">
            {messages.length > 0 ? (
              <p>No messages match your search.</p>
@@ -166,7 +209,7 @@ const Inbox = () => {
         </div>
       ) : (
         <div className="message-list">
-          {filteredMessages.map((msg) => {
+          {paginatedMessages.map((msg) => {
             const isUnread = msg.status === "unread" || msg.status === false;
 
             return (
@@ -175,7 +218,7 @@ const Inbox = () => {
                 className={`message-card clickable ${isUnread ? "unread" : ""}`}
                 onClick={() => toggleReadStatus(msg._id)}
               >
-                {/* 1. Header Row: Sender Name (Left) & Date (Right) */}
+                {/* 1. Header Row: Sender Name & Date */}
                 <div className="message-header">
                   <h4>{msg.from || "System Notification"}</h4>
                   <span className="message-date">
@@ -183,12 +226,12 @@ const Inbox = () => {
                   </span>
                 </div>
 
-                {/* 2. Subject Line (Purple Text) */}
+                {/* 2. Subject Line */}
                 <div className="message-sender">
                    {msg.subject || "No Subject"}
                 </div>
 
-                {/* 3. Message Body (Grey Text) */}
+                {/* 3. Message Body */}
                 <div className="message-text">
                   {msg.message || msg.body || "No content available."}
                 </div>
@@ -206,6 +249,56 @@ const Inbox = () => {
           })}
         </div>
       )}
+
+      {/* 🟢 PAGINATION FOOTER */}
+      {totalItems > 0 && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', paddingBottom: '20px' }}>
+            <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between', 
+                background: 'white', 
+                border: '1px solid #eee', 
+                borderRadius: '8px', 
+                padding: '5px', 
+                boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+                minWidth: '250px'
+            }}>
+                <button 
+                    onClick={handlePrev} 
+                    disabled={currentPage === 1}
+                    style={{ 
+                        border: 'none', 
+                        background: 'transparent', 
+                        cursor: currentPage === 1 ? 'not-allowed' : 'pointer', 
+                        padding: '5px 10px',
+                        display: 'flex', alignItems: 'center'
+                    }}
+                >
+                    <FaChevronLeft color={currentPage === 1 ? "#ccc" : "#333"} />
+                </button>
+
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#666', margin: '0 15px' }}>
+                    Page {currentPage} of {totalPages}
+                </span>
+
+                <button 
+                    onClick={handleNext} 
+                    disabled={currentPage === totalPages}
+                    style={{ 
+                        border: 'none', 
+                        background: 'transparent', 
+                        cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', 
+                        padding: '5px 10px',
+                        display: 'flex', alignItems: 'center'
+                    }}
+                >
+                    <FaChevronRight color={currentPage === totalPages ? "#ccc" : "#333"} />
+                </button>
+            </div>
+        </div>
+      )}
+
     </div>
   );
 };

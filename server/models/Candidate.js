@@ -3,21 +3,23 @@ const { Schema } = mongoose;
 
 const CandidateSchema = new Schema({
   // Link Login to Profile
+  // 🟢 UPDATE: Removed 'required: true' and added 'sparse: true'
+  // This allows Recruiters to create candidates who don't have a login account yet.
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
-    unique: true 
+    required: false, 
+    unique: true,
+    sparse: true // Allows multiple candidates to have no user account (null)
   },
 
-  // ✅ 1. Link to Job Model (Matches your .populate('jobId'))
+  // Link to Job Model
   jobId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Position", // ⚠️ Ensure this matches your Job Model name (e.g. 'Job' or 'Position')
+    ref: "Position", 
     required: false
   },
 
-  // ✅ 2. Backup Text Field for Position (If no Job ID is linked)
   position: { 
     type: String, 
     required: false 
@@ -38,9 +40,15 @@ const CandidateSchema = new Schema({
   resumePath: { type: String },
   resumeOriginalName: { type: String },
 
+  // 🟢 NEW FIELDS: Added to support Recruiter Submissions
+  submittedByRecruiter: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  company: { type: String },
+  hiringManager: { type: String },
+
   status: {
     type: String,
-    enum: ["Active", "Hired", "Rejected", "Passive"],
+    // 🟢 UPDATE: Added "Submitted" to the allowed list
+    enum: ["Active", "Hired", "Rejected", "Passive", "Submitted"],
     default: "Active"
   },
 

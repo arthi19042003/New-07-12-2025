@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Candidate = require("../models/Candidate");
-const Submission = require("../models/Submission");
+const Submission = require("../models/Submission"); // ✅ Import Submission
 const Interview = require("../models/Interview");
 const path = require('path');
 const fs = require('fs');
@@ -10,7 +10,6 @@ const auth = require("../middleware/auth");
 // --- CREATE or UPDATE Candidate Profile ---
 router.post("/profile", auth, async (req, res) => {
   try {
-    // ✅ Accept jobId and position from the request
     const { 
         firstName, lastName, email, phone, bio, skills, resumePath,
         jobId, position 
@@ -18,14 +17,12 @@ router.post("/profile", auth, async (req, res) => {
     
     const userId = req.user.id || req.user._id;
 
-    // Check if Profile exists
     let candidate = await Candidate.findOne({ user: userId });
     
     if (!candidate && email) {
         candidate = await Candidate.findOne({ email });
     }
 
-    // Prepare Data Object
     const profileFields = {
         user: userId,
         firstName,
@@ -35,14 +32,11 @@ router.post("/profile", auth, async (req, res) => {
         bio,
         skills: Array.isArray(skills) ? skills : (skills ? skills.split(',').map(s => s.trim()) : []), 
         resumePath,
-
-        // ✅ Save these fields to DB
         jobId: jobId || undefined, 
         position: position || ""
     };
 
     if (candidate) {
-        // UPDATE existing profile
         candidate = await Candidate.findOneAndUpdate(
             { user: userId },
             { $set: profileFields },
@@ -50,7 +44,6 @@ router.post("/profile", auth, async (req, res) => {
         );
         return res.json(candidate);
     } else {
-        // CREATE new profile
         candidate = new Candidate(profileFields);
         await candidate.save();
         return res.json(candidate);
@@ -62,12 +55,28 @@ router.post("/profile", auth, async (req, res) => {
   }
 });
 
-// --- GET All Candidates ---
+// --- GET All Candidates (FIXED DISPLAY LOGIC) ---
 router.get("/", auth, async (req, res) => {
   try {
-    const candidates = await Candidate.find()
-      .populate("jobId", "title department") // ✅ Populates Job Title for Dropdown
-      .sort({ createdAt: -1 });
+    // 1. Fetch candidates as plain objects (lean) so we can modify them
+    let candidates = await Candidate.find()
+      .populate("jobId", "title department") 
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // 2. ✅ Auto-Fix: If position is missing, look up the latest submission
+    // This fixes existing candidates like Nisha/Rakesh who show "Unknown"
+    for (let cand of candidates) {
+        if (!cand.jobId && !cand.position) {
+            const latestSub = await Submission.findOne({ candidate: cand._id })
+                .populate("position", "title department");
+            
+            if (latestSub && latestSub.position) {
+                cand.jobId = latestSub.position; // Populate object structure for frontend
+                cand.position = latestSub.position.title; // Populate fallback string
+            }
+        }
+    }
       
     res.json(candidates);
   } catch (err) {

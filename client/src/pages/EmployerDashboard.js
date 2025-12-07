@@ -32,14 +32,7 @@ const EmployerDashboard = () => {
           </button>
         </div>
 
-        {/* Dashboard Stats */}
-        <div className="ed-card">
-          <h3>Analytics</h3>
-          <p>View hiring statistics and candidate pipeline</p>
-          <button className="ed-btn" onClick={() => navigate("/manager/dashboard")}>
-            View Analytics
-          </button>
-        </div>
+        {/* Analytics Card REMOVED */}
       </div>
     </div>
   );

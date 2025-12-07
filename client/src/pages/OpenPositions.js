@@ -8,11 +8,12 @@ import {
   Row, 
   Col,
   Modal,
-  Button
+  Button,
+  OverlayTrigger, 
+  Tooltip         
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; 
-// Added FaEdit, FaTrash, FaBan, FaCheck, FaTimes to imports
 import { 
   FaSearch, 
   FaFilter, 
@@ -23,7 +24,8 @@ import {
   FaTrash,
   FaBan,
   FaCheck,
-  FaTimes
+  FaTimes,
+  FaSortAmountDown 
 } from 'react-icons/fa'; 
 import './OpenPositions.css';
 
@@ -44,12 +46,26 @@ export default function OpenPositions() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [positionToDelete, setPositionToDelete] = useState(null);
   
-  // Filter State
+  // Filter & Sort State
   const [filterText, setFilterText] = useState('');
   const [statusFilter, setStatusFilter] = useState('All'); 
+  const [sortOption, setSortOption] = useState("newest"); 
   const [currentPage, setCurrentPage] = useState(1); 
 
   const token = localStorage.getItem("token");
+
+  // --- ICON STYLES ---
+  const iconStyle = {
+    cursor: "pointer",
+    fontSize: "1.2rem",
+    transition: "transform 0.2s ease-in-out",
+    background: "transparent",
+    border: "none",
+    padding: "5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  };
 
   // --- FETCH DATA ---
   const fetchPositions = async () => {
@@ -160,11 +176,12 @@ export default function OpenPositions() {
     }
   };
   
-  // --- FILTER LOGIC ---
+  // --- FILTER & SORT LOGIC ---
   const filteredPositions = useMemo(() => {
     let items = [...positions];
     const filterLower = filterText.toLowerCase();
 
+    // 1. Filter
     items = items.filter(pos => {
       if (statusFilter !== 'All' && pos.status !== statusFilter) return false;
       if (filterLower) {
@@ -178,13 +195,32 @@ export default function OpenPositions() {
       return true;
     });
 
+    // 2. 🟢 Sort Logic (Added Location)
+    items.sort((a, b) => {
+        switch(sortOption) {
+            case "newest": 
+                return (b.createdAt || b._id).localeCompare(a.createdAt || a._id);
+            case "oldest": 
+                return (a.createdAt || a._id).localeCompare(b.createdAt || b._id);
+            case "title_asc": 
+                return (a.title || "").localeCompare(b.title || "");
+            case "location_asc": // 🟢 Added Location Sort
+                return (a.location || "").localeCompare(b.location || "");
+            case "openings_desc": 
+                return (b.openings || 0) - (a.openings || 0);
+            default:
+                return 0;
+        }
+    });
+
+    // 3. Pagination Reset
     if (currentPage > Math.ceil(items.length / ITEMS_PER_PAGE) && items.length > 0) {
       setCurrentPage(1);
     } else if (items.length === 0 && currentPage !== 1) {
        setCurrentPage(1);
     }
     return items;
-  }, [positions, filterText, statusFilter, currentPage]);
+  }, [positions, filterText, statusFilter, sortOption, currentPage]);
 
   // --- PAGINATION ---
   const totalItems = filteredPositions.length;
@@ -198,6 +234,10 @@ export default function OpenPositions() {
   
   const handlePrev = () => { if (currentPage > 1) setCurrentPage(prev => prev - 1); };
   const handleNext = () => { if (currentPage < totalPages) setCurrentPage(prev => prev + 1); };
+
+  const renderTooltip = (props, text) => (
+    <Tooltip id="button-tooltip" {...props}>{text}</Tooltip>
+  );
 
   // --- RENDER ---
 
@@ -214,31 +254,53 @@ export default function OpenPositions() {
       </div>
 
       <Row className="mb-4 g-3">
-        <Col md={8}>
-          <div className="op-search-wrapper">
-             <FaSearch className="op-search-icon" />
+        {/* Search */}
+        <Col md={6}>
+          <div className="op-search-wrapper bg-white rounded shadow-sm p-2">
+             <FaSearch className="op-search-icon text-primary ms-2" />
              <Form.Control 
                type="text" 
                placeholder="Filter by Title, Location, or Skills..." 
-               className="op-search-input" 
+               className="op-search-input border-0 ps-5" 
                value={filterText} 
                onChange={(e) => { setFilterText(e.target.value); setCurrentPage(1); }} 
              />
           </div>
         </Col>
-        <Col md={4}>
-           <div className="op-filter-wrapper">
-             <FaFilter className="op-filter-icon" />
+
+        {/* Filter */}
+        <Col md={3}>
+           <div className="op-filter-wrapper bg-white rounded shadow-sm p-2">
+             <FaFilter className="op-filter-icon text-muted ms-2" />
              <Form.Select 
                value={statusFilter} 
                onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }} 
-               className="op-filter-select"
+               className="op-filter-select border-0 shadow-none fw-semibold"
              >
                <option value="All">All Statuses</option>
                <option value="Open">Open Positions</option>
                <option value="Closed">Closed Positions</option>
              </Form.Select>
-             <FaChevronDown className="op-filter-chevron" />
+             <FaChevronDown className="op-filter-chevron text-muted me-2" />
+           </div>
+        </Col>
+
+        {/* 🟢 Sort Dropdown */}
+        <Col md={3}>
+           <div className="op-filter-wrapper bg-white rounded shadow-sm p-2">
+             <FaSortAmountDown className="op-filter-icon text-muted ms-2" />
+             <Form.Select 
+               value={sortOption} 
+               onChange={(e) => { setSortOption(e.target.value); setCurrentPage(1); }} 
+               className="op-filter-select border-0 shadow-none fw-semibold"
+             >
+               <option value="newest">Sort by: Newest</option>
+               <option value="oldest">Sort by: Oldest</option>
+               <option value="title_asc">Sort by: Title (A-Z)</option>
+               <option value="location_asc">Sort by: Location</option>
+               <option value="openings_desc">Sort by: Openings</option>
+             </Form.Select>
+             <FaChevronDown className="op-filter-chevron text-muted me-2" />
            </div>
         </Col>
       </Row>
@@ -254,7 +316,7 @@ export default function OpenPositions() {
                   <th className="p-3">Required Skills</th>
                   <th className="p-3">Openings</th>
                   <th className="p-3">Status</th>
-                  <th className="p-3 text-end">Actions</th>
+                  <th className="p-3 text-center" style={{ minWidth: "180px" }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -283,47 +345,48 @@ export default function OpenPositions() {
                       </td>
                       
                       {/* ACTION ICONS COLUMN */}
-                      <td className="p-3 text-end">
-                        <div className="d-flex gap-3 justify-content-end align-items-center">
+                      <td className="p-3 text-center">
+                        <div className="d-flex gap-2 justify-content-center align-items-center">
                           {editingId === pos._id ? (
                             <>
                               {/* Save Icon */}
-                              <FaCheck 
-                                className="op-icon-action op-icon-save" 
-                                title="Save Changes"
-                                onClick={() => handleSave(pos._id)} 
-                              />
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Save Changes")}>
+                                <button style={{ ...iconStyle, color: "#10b981" }} onClick={() => handleSave(pos._id)}>
+                                  <FaCheck />
+                                </button>
+                              </OverlayTrigger>
+
                               {/* Cancel Icon */}
-                              <FaTimes 
-                                className="op-icon-action op-icon-cancel" 
-                                title="Cancel Edit"
-                                onClick={() => setEditingId(null)} 
-                              />
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Cancel")}>
+                                <button style={{ ...iconStyle, color: "#64748b" }} onClick={() => setEditingId(null)}>
+                                  <FaTimes />
+                                </button>
+                              </OverlayTrigger>
                             </>
                           ) : (
                             <>
                               {/* Edit Icon */}
-                              <FaEdit 
-                                className="op-icon-action op-icon-edit" 
-                                title="Edit Position"
-                                onClick={() => handleEdit(pos)} 
-                              />
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Edit Position")}>
+                                <button style={{ ...iconStyle, color: "#6d28d9" }} onClick={() => handleEdit(pos)}>
+                                  <FaEdit />
+                                </button>
+                              </OverlayTrigger>
                               
                               {/* Close Position Icon (Only if Open) */}
                               {pos.status === "Open" && (
-                                <FaBan 
-                                  className="op-icon-action op-icon-close" 
-                                  title="Close Position"
-                                  onClick={() => handleClosePosition(pos._id)} 
-                                />
+                                <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Close Position")}>
+                                    <button style={{ ...iconStyle, color: "#f59e0b" }} onClick={() => handleClosePosition(pos._id)}>
+                                        <FaBan />
+                                    </button>
+                                </OverlayTrigger>
                               )}
                               
                               {/* Delete Icon */}
-                              <FaTrash 
-                                className="op-icon-action op-icon-delete" 
-                                title="Delete Position"
-                                onClick={() => initiateDelete(pos._id)} 
-                              />
+                              <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Delete Position")}>
+                                <button style={{ ...iconStyle, color: "#ef4444" }} onClick={() => initiateDelete(pos._id)}>
+                                  <FaTrash />
+                                </button>
+                              </OverlayTrigger>
                             </>
                           )}
                         </div>
@@ -343,10 +406,10 @@ export default function OpenPositions() {
                   style={{ minWidth: '250px' }}
                 >
                     <button 
-                        className="btn btn-light d-flex align-items-center justify-content-center border-0"
+                        className="d-flex align-items-center justify-content-center border-0"
                         onClick={handlePrev} 
                         disabled={currentPage === 1}
-                        style={{ width: '32px', height: '32px', padding: 0, background: 'transparent' }}
+                        style={{ width: '32px', height: '32px', padding: 0, background: 'transparent', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
                     >
                         <FaChevronLeft size={14} className={currentPage === 1 ? "text-muted" : "text-dark"} />
                     </button>
@@ -356,10 +419,10 @@ export default function OpenPositions() {
                     </span>
 
                     <button 
-                        className="btn btn-light d-flex align-items-center justify-content-center border-0"
+                        className="d-flex align-items-center justify-content-center border-0"
                         onClick={handleNext} 
                         disabled={currentPage === totalPages}
-                        style={{ width: '32px', height: '32px', padding: 0, background: 'transparent' }}
+                        style={{ width: '32px', height: '32px', padding: 0, background: 'transparent', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
                     >
                         <FaChevronRight size={14} className={currentPage === totalPages ? "text-muted" : "text-dark"} />
                     </button>

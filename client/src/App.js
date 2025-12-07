@@ -24,7 +24,7 @@ import InterviewerRegister from "./pages/InterviewerRegister";
 import Dashboard from "./pages/Dashboard"; // Fallback/Generic Dashboard
 import CandidateDashboard from "./pages/CandidateDashboard"; // ✅ NEW
 import EmployerDashboard from "./pages/EmployerDashboard";   // ✅ NEW
-import ManagerDashboard from "./pages/ManagerDashboard";     // ✅ NEW (Analytics)
+// REMOVED: ManagerDashboard import
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import HiringManagerDashboard from "./pages/HiringManagerDashboard"; 
 import AdminDashboard from "./pages/AdminDashboard";
@@ -200,15 +200,7 @@ function App() {
               }
             />
 
-            {/* ✅ Analytics Dashboard (Linked from Employer Dashboard) */}
-            <Route
-              path="/manager/dashboard"
-              element={
-                <PrivateRoute allowedRoles={['employer', 'hiringmanager']}>
-                  <ManagerDashboard />
-                </PrivateRoute>
-              }
-            />
+            {/* REMOVED: Analytics / Manager Dashboard Route */}
 
             <Route
               path="/employer/profile"

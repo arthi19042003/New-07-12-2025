@@ -22,9 +22,9 @@ import {
   FaClipboardCheck,// Review
   FaCalendarAlt,   // Schedule
   FaHistory,       // History
-  FaBan,           // Reject
-  FaCheckCircle,   // Hire
-  FaUserCheck,      // Hired Status
+  FaTimes,         // Reject (Cross)
+  FaCheck,         // Hire (Tick)
+  FaUserCheck,     // Hired Status
   FaSortAmountDown // Sort Icon
 } from 'react-icons/fa';
 import toast, { Toaster } from "react-hot-toast";
@@ -65,7 +65,7 @@ export default function ApplicationsDashboard() {
   // --- Filter, Sort & Pagination State ---
   const [filterText, setFilterText] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [sortOption, setSortOption] = useState("newest"); // 🟢 New Sort State
+  const [sortOption, setSortOption] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
 
   // --- Modal States ---
@@ -129,12 +129,16 @@ export default function ApplicationsDashboard() {
     try {
       const res = await api.put(`/applications/${id}/${action}`, payload);
       if (res.status === 200) {
-        toast.success(`Application updated successfully`);
+        // Only show generic success message if it's not a schedule action (handled separately)
+        if (action !== 'schedule') {
+            toast.success(`Application updated successfully`);
+        }
         fetchApplications(); 
       }
     } catch (err) {
       console.error(`Error performing ${action}:`, err);
       toast.error(`Failed to update application`);
+      throw err; // Propagate error for specific handlers
     }
   };
 
@@ -182,6 +186,7 @@ export default function ApplicationsDashboard() {
     setShowScheduleModal(true);
   };
 
+  // ✅ UPDATED: Corrected logic to use "schedule" endpoint
   const handleConfirmSchedule = async () => {
     if(!selectedApp) return;
     if(!interviewDate || !interviewTime) {
@@ -189,14 +194,17 @@ export default function ApplicationsDashboard() {
       return;
     }
     try {
-      await updateStatus(selectedApp._id, "review", { 
+      // CHANGED: "review" -> "schedule"
+      await updateStatus(selectedApp._id, "schedule", { 
         interviewDate, 
         interviewTime,
         status: "Interview" 
       });
       setShowScheduleModal(false);
+      toast.success("Interview Scheduled Successfully");
     } catch(err) {
       console.error(err);
+      toast.error("Failed to schedule interview");
     }
   };
 
@@ -217,7 +225,7 @@ export default function ApplicationsDashboard() {
       return true;
     });
 
-    // 2. 🟢 Sort
+    // 2. Sort
     items.sort((a, b) => {
         switch(sortOption) {
             case "newest": // Date Desc
@@ -278,7 +286,7 @@ export default function ApplicationsDashboard() {
         <h2 className="fw-bold" style={{ color: "#5b21b6" }}>Candidate Applications</h2>
       </div>
 
-      {/* 🟢 Updated Row Layout for Search, Filter, and Sort */}
+      {/* Search, Filter, and Sort Row */}
       <Row className="mb-4 g-3">
         {/* Search */}
         <Col md={6}>
@@ -315,7 +323,7 @@ export default function ApplicationsDashboard() {
            </div>
         </Col>
 
-        {/* 🟢 New Sort Dropdown */}
+        {/* Sort Dropdown */}
         <Col md={3}>
            <div className="ad-filter-wrapper bg-white rounded shadow-sm p-2">
              <FaSortAmountDown className="ad-filter-icon-left" />
@@ -410,7 +418,7 @@ export default function ApplicationsDashboard() {
                           {app.status !== "Rejected" && app.status !== "Hired" && (
                             <OverlayTrigger placement="top" overlay={(p) => renderTooltip(p, "Reject Candidate")}>
                               <button style={{...iconStyle, color: "#ef4444"}} onClick={() => initiateAction(app._id, "reject")}>
-                                <FaBan />
+                                <FaTimes /> 
                               </button>
                             </OverlayTrigger>
                           )}
@@ -436,7 +444,7 @@ export default function ApplicationsDashboard() {
                                 onClick={() => { if (app.status !== "Rejected") initiateAction(app._id, "hire"); }}
                                 disabled={app.status === "Rejected"}
                               >
-                                <FaCheckCircle />
+                                <FaCheck />
                               </button>
                             </OverlayTrigger>
                           )}

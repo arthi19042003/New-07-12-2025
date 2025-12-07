@@ -1,0 +1,260 @@
+/* CandidateInbox.css */
+
+.ci-container {
+  max-width: 1400px;
+  width: 95%;
+  margin: 10px auto 60px auto; 
+  padding: 40px 50px;
+  font-family: "Inter", sans-serif;
+  background-color: #faf5ff; 
+  min-height: 100vh;
+}
+
+.ci-container h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #5b21b6; 
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.ci-subtitle {
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+/* --- Controls Bar (Search & Filter) --- */
+.ci-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 15px; 
+    /* Optional: Put inside a white card like the list items, or keep transparent */
+}
+
+/* Search Wrapper */
+.ci-search-wrapper {
+    position: relative;
+    flex: 1; 
+}
+
+.ci-search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8b5cf6;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ci-search-input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    border: 1.5px solid #ede9fe; /* Matched border color */
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(91, 33, 182, 0.04);
+}
+
+.ci-search-input:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+/* Filter Wrapper */
+.ci-filter-wrapper {
+    position: relative;
+    min-width: 200px;
+}
+
+.ci-filter-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8b5cf6;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ci-filter-select {
+    width: 100%;
+    padding: 12px 35px 12px 40px;
+    border: 1.5px solid #ede9fe;
+    border-radius: 12px;
+    background-color: #ffffff;
+    font-size: 15px;
+    color: #4b5563;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    box-shadow: 0 2px 8px rgba(91, 33, 182, 0.04);
+}
+
+.ci-filter-select:focus {
+    border-color: #7c3aed;
+}
+
+.ci-filter-chevron {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8b5cf6;
+    pointer-events: none;
+    font-size: 0.8rem;
+}
+
+/* --- List & Card Styling --- */
+
+.ci-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ci-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(91, 33, 182, 0.08);
+  padding: 20px 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1.5px solid #ede9fe; 
+}
+
+.ci-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(91, 33, 182, 0.12);
+}
+
+/* Header: Name and Date */
+.ci-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.ci-card-header h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4c1d95; /* Deep purple */
+  margin: 0;
+}
+
+.ci-date {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Position (matches Subject line style) */
+.ci-position {
+  font-weight: 500;
+  color: #5b21b6;
+  margin: 8px 0 8px;
+  font-size: 1rem;
+}
+
+/* Details (matches Message Body style) */
+.ci-details {
+  color: #444;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-small {
+  color: #8b5cf6;
+  font-size: 0.9em;
+}
+
+.link-row a {
+  color: #6d28d9;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-left: 5px;
+  transition: color 0.2s;
+}
+
+.link-row a:hover {
+  color: #4c1d95;
+}
+
+/* Footer & Status Tags */
+.ci-footer {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.ci-status-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  box-shadow: 0 1px 2px rgba(109, 40, 217, 0.08);
+}
+
+/* Specific Status Colors */
+.ci-status-tag.scheduled { background-color: #eff6ff; color: #1d4ed8; }
+.ci-status-tag.completed { background-color: #ecfdf5; color: #047857; }
+.ci-status-tag.pending { background-color: #fff7ed; color: #c2410c; }
+.ci-status-tag.cancelled { background-color: #fef2f2; color: #b91c1c; }
+
+.ci-status-tag.success { background-color: #d1fae5; color: #065f46; } /* Pass */
+.ci-status-tag.danger { background-color: #fee2e2; color: #991b1b; } /* Fail */
+
+/* Loading & Empty States */
+.ci-loading, .ci-empty {
+  text-align: center;
+  padding: 30px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.ci-empty p {
+  color: #7c3aed;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .ci-container {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ci-controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+  }
+
+  .ci-search-wrapper, .ci-filter-wrapper {
+      max-width: 100%;
+  }
+  
+  .ci-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

@@ -1,0 +1,189 @@
+.auth-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1; 
+  padding: 1px 20px 20px 20px; 
+  min-height: 90vh;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  width: 520px;
+  background: rgba(255, 255, 255, 0.97);
+  padding: 50px; 
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.22);
+  animation: fadeUp 0.4s ease-out;
+}
+
+.auth-card h2 {
+  text-align: center;
+  color: #5b2eca;
+  margin-bottom: 25px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mandatory {
+  color: #dc2626; 
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+input {
+  padding: 14px;
+  border: 1px solid #d3d3d3;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #8a4ff2;
+  box-shadow: 0 0 6px rgba(138, 79, 242, 0.4);
+  outline: none;
+}
+
+input.error {
+  border-color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+}
+
+input.error:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 6px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* --- Unified Mobile Number Input Styling (Dropdown + Input) --- */
+.phone-group {
+  display: flex;
+  align-items: stretch; /* Ensures both boxes are the same height */
+  width: 100%;
+  position: relative;
+}
+
+.phone-prefix-select {
+  /* Adjusted padding for text and arrow */
+  padding: 14px 25px 14px 10px; 
+  background-color: #e9ecef; /* Light grey background */
+  border: 1px solid #d3d3d3;
+  border-right: 1px solid #ccc; /* Subtle separator */
+  border-radius: 12px 0 0 12px; /* Round only left corners */
+  color: #333;
+  font-weight: 600;
+  font-size: 14px; /* Slightly smaller font to fit names */
+  outline: none;
+  cursor: pointer;
+  
+  /* Fixed width to control size */
+  width: 140px; 
+  min-width: 140px;
+  max-width: 140px;
+  
+  /* Handle long country names */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  
+  /* Custom Dropdown Arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}
+
+.phone-prefix-select:focus {
+  border-color: #8a4ff2;
+  z-index: 2; /* Bring above input border on focus */
+}
+
+.phone-group input {
+  flex-grow: 1;
+  /* Calculate width based on select width */
+  width: calc(100% - 140px);
+  border-radius: 0 12px 12px 0 !important; /* Round only right corners */
+  border: 1px solid #d3d3d3;
+  border-left: none; /* Remove left border to merge with prefix */
+  padding: 14px;
+  font-size: 16px;
+}
+
+.phone-group input:focus {
+  border-color: #8a4ff2;
+  outline: none;
+  z-index: 1;
+}
+
+.phone-group input.error {
+  border-color: #dc2626 !important;
+}
+/* ----------------------------------------- */
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  background: linear-gradient(90deg, #5b2eca, #8a4ff2);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+p {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 15px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .auth-page-container {
+    padding: 110px 20px 20px 20px;
+  }
+
+  .auth-card {
+    width: 90%;
+    padding: 30px;
+  }
+}

@@ -1,0 +1,102 @@
+.history-container {
+  max-width: 1000px;
+  margin: 110px auto 60px auto; 
+  padding: 40px 50px;
+  font-family: "Inter", sans-serif;
+  background-color: #faf5ff;
+  min-height: 100vh;
+  border-radius: 10px;
+}
+
+.history-container h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #5b21b6;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.history-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(91, 33, 182, 0.08);
+  padding: 22px 26px;
+  margin-bottom: 25px;
+  border: 1.5px solid #ede9fe;
+}
+
+.history-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4c1d95;
+  margin-bottom: 15px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.details-grid-full {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: 10px;
+   margin-top: 10px;
+}
+
+.details-grid p, .details-grid-full p {
+  font-size: 1rem;
+  color: #333;
+}
+.details-grid p strong, .details-grid-full p strong {
+  color: #6d28d9;
+  font-weight: 600;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #f3e8ff;
+}
+
+.history-table th {
+  background: #f3e8ff;
+  color: #5b21b6;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.history-table tr:hover td {
+  background-color: #faf5ff;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.status-badge.submitted, .status-badge.scheduled, .status-badge.pending {
+  background-color: #e0e7ff; color: #3730a3;
+}
+.status-badge.shortlisted, .status-badge.pass, .status-badge.completed {
+  background-color: #d1fae5; color: #065f46;
+}
+.status-badge.rejected, .status-badge.fail {
+  background-color: #fee2e2; color: #991b1b;
+}
+
+.empty, .error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1rem;
+}
+.error { color: #b91c1c; }

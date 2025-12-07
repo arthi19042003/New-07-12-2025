@@ -1,0 +1,35 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-attachment: fixed;
+  font-family: "Segoe UI", sans-serif;
+  padding-top: 120px; 
+}
+
+.success,
+.error {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.success {
+  background: #d7f7e0;
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.error {
+  background: #ffe0e3;
+  color: #721c24;
+  border-left: 4px solid #ff4b55;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

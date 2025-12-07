@@ -1,0 +1,96 @@
+/* RecruiterDashboard.css */
+
+.rd-container {
+  min-height: 100vh;
+  background-color: #f8f9fa; /* Consistent clean background */
+  padding: 40px 20px;
+  padding-top: 100px; /* Space for Navbar */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.rd-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+.rd-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+}
+
+/* Grid Layout - Aligns cards in a single line */
+.rd-card-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Card Styling */
+.rd-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 30px;
+  width: 350px; /* Matched to Candidate/Employer width */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rd-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #7e22ce;
+}
+
+.rd-card h3 {
+  font-size: 1.5rem;
+  color: #6b21a8; /* Darker Purple */
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.rd-card p {
+  color: #475569;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+/* Button Styling */
+.rd-btn {
+  background-color: #7e22ce;
+  color: white;
+  padding: 12px 0;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.rd-btn:hover {
+  background-color: #6b21a8;
+}
+
+@media (max-width: 768px) {
+  .rd-card-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .rd-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}

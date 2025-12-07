@@ -1,0 +1,362 @@
+/* PurchaseOrders.css */
+
+.po-container {
+  max-width: 1100px;
+  margin: 110px auto 40px auto; 
+  padding: 20px 30px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f6ff; 
+  min-height: auto;
+  border-radius: 12px;
+}
+
+.po-container h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #4b0082; 
+  text-align: center;
+}
+
+.po-form-toggle {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.po-btn-create {
+  background-color: #7e22ce;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.po-btn-create:hover {
+  background-color: #6b21a8;
+}
+
+/* --- Form Styles --- */
+.po-create-form {
+  background: #fdfcff;
+  border: 1px solid #c4b5fd;
+  margin-bottom: 30px;
+}
+
+.po-create-form h3 {
+  font-size: 1.2rem;
+  color: #5b21b6;
+  margin-bottom: 15px;
+}
+
+.po-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.po-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.po-form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.po-form-group input {
+  padding: 10px;
+  border: 1px solid #c4b5fd;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.po-form-group input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+}
+
+.po-error-msg {
+  text-align: center;
+  margin-top: 15px;
+  color: #991b1b;
+  background-color: #fee2e2;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* --- Filter & Search Styles --- */
+.po-filters-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.po-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+}
+
+.po-search-input {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.po-search-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+}
+
+.po-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.po-filter-box {
+  position: relative;
+  min-width: 180px;
+}
+
+.po-filter-select {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  background-color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.po-filter-select:focus {
+  border-color: #7c3aed;
+}
+
+.po-filter-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
+
+/* --- Card & Table Styles --- */
+.po-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 14px rgba(126, 34, 206, 0.12);
+  margin-bottom: 30px;
+  overflow-x: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.po-card h3 {
+  font-size: 1.2rem;
+  color: #5b21b6;
+  margin-bottom: 15px;
+}
+
+.po-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.po-table th,
+.po-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+
+.po-table th {
+  background-color: #7e22ce;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  user-select: none;
+}
+
+.po-table th.po-clickable {
+  cursor: pointer;
+}
+
+.po-table th.po-clickable:hover {
+  background-color: #6b21a8;
+}
+
+.po-table td {
+  text-align: center;
+}
+
+.po-table tbody tr:nth-child(even) {
+  background-color: #f9f9ff;
+}
+
+.po-table tbody tr:hover {
+  background-color: #f3e8ff;
+}
+
+/* Sorting Icons */
+.po-sort-icon {
+  margin-left: 6px;
+  vertical-align: middle;
+  font-size: 0.8rem;
+}
+.po-sort-icon.faded {
+  opacity: 0.5;
+}
+
+/* Status Badges */
+.po-status {
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-block;
+  min-width: 90px;
+}
+
+.po-status.pending {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.po-status.approved {
+  background-color: #e9f5ec;
+  color: #166534;
+}
+
+.po-status.rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* --- Action Icons (New) --- */
+.po-icon-action {
+    cursor: pointer;
+    font-size: 1.6rem; /* Large and visible */
+    transition: transform 0.2s, color 0.2s;
+    margin: 0 8px; /* Spacing between icons */
+}
+
+.po-icon-action:hover {
+    transform: scale(1.15);
+}
+
+/* Approve Icon - Green */
+.po-icon-approve {
+    color: #198754; 
+}
+.po-icon-approve:hover {
+    color: #146c43;
+}
+
+/* Reject Icon - Red */
+.po-icon-reject {
+    color: #dc3545;
+}
+.po-icon-reject:hover {
+    color: #bb2d3b;
+}
+
+.po-no-action {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Pagination Styles */
+.po-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.po-pagination-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #5b21b6;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.po-pagination-btn:hover:not(:disabled) {
+  background-color: #f3e8ff;
+}
+
+.po-pagination-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.po-page-info {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Loading & Empty states */
+.po-loading,
+.po-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.po-error {
+  text-align: center;
+  padding: 15px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+@media (max-width: 768px) {
+  .po-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .po-filters-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .po-filter-box {
+    width: 100%;
+  }
+}

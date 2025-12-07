@@ -1,0 +1,143 @@
+/* ManagerDashboard.css */
+
+/* Main Container */
+.md-dashboard {
+  padding: 40px 30px;
+  background-color: #f8f6ff; /* Light purple tint background */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 100px; /* Space for fixed navbar */
+}
+
+.md-dashboard h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4b0082; /* Deep Indigo */
+  margin-bottom: 30px;
+}
+
+/* --- Summary Grid --- */
+.md-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.md-summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1); /* Soft purple shadow */
+  border-left: 5px solid #ddd;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.md-summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+}
+
+.md-summary-card h3 {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.md-summary-card p {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Card Colors */
+.md-summary-card.blue { border-left-color: #3b82f6; }
+.md-summary-card.orange { border-left-color: #f59e0b; }
+.md-summary-card.green { border-left-color: #10b981; }
+.md-summary-card.teal { border-left-color: #14b8a6; }
+.md-summary-card.red { border-left-color: #ef4444; }
+.md-summary-card.gray { border-left-color: #6b7280; }
+
+/* --- Candidate Section --- */
+.md-candidate-section {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.md-candidate-section h2 {
+  font-size: 1.5rem;
+  color: #5b21b6;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* --- Table Styles --- */
+.md-table-responsive {
+  overflow-x: auto;
+}
+
+.md-candidate-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.md-candidate-table th,
+.md-candidate-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.md-candidate-table th {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.md-candidate-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.md-candidate-table td {
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+/* Status Badges */
+.md-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.md-status.passed { background-color: #d1fae5; color: #065f46; }
+.md-status.failed { background-color: #fee2e2; color: #991b1b; }
+.md-status.pending { background-color: #f3f4f6; color: #374151; }
+.md-status.completed { background-color: #e0e7ff; color: #3730a3; }
+
+.md-loading {
+  text-align: center;
+  padding: 50px;
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .md-dashboard {
+    padding: 20px;
+    padding-top: 120px;
+  }
+  .md-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

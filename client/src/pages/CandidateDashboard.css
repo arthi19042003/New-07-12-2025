@@ -1,0 +1,96 @@
+/* CandidateDashboard.css */
+
+.cd-container {
+  min-height: 100vh;
+  background-color: #fafafa; /* Clean background */
+  padding: 40px 20px;
+  padding-top: 100px; /* Space for Navbar */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.cd-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.cd-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+}
+
+/* Grid Layout */
+.cd-card-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card Styling */
+.cd-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 30px;
+  width: 350px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cd-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #8b5cf6;
+}
+
+.cd-card h3 {
+  font-size: 1.5rem;
+  color: #4c1d95; /* Deep Purple */
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.cd-card p {
+  color: #475569;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+/* Button Styling */
+.cd-btn {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 12px 0;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cd-btn:hover {
+  background-color: #7c3aed;
+}
+
+@media (max-width: 768px) {
+  .cd-card-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cd-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}

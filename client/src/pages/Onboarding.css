@@ -1,0 +1,132 @@
+.onboarding-container {
+  max-width: 1000px;
+  margin: 10px auto 50px auto; 
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
+  background-color: #faf5ff; 
+  border-radius: 16px;
+}
+
+.onboarding-container h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  text-align: center;
+  color: #5b21b6; 
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #7e22ce;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1rem;
+}
+
+.onboarding-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 22px;
+}
+
+.onboarding-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 10px rgba(91, 33, 182, 0.08);
+  border: 1.5px solid #ede9fe;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.onboarding-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(91, 33, 182, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #4c1d95;
+  font-weight: 600;
+}
+
+.status {
+  display: inline-block;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  background-color: #ffffff;
+  color: #6d28d9;
+  box-shadow: 0 1px 2px rgba(109, 40, 217, 0.05);
+}
+
+.status.progress,
+.status.completed,
+.status.pending,
+.status.initiated {
+  background-color: #ffffff !important;
+  color: #6d28d9 !important;
+  border: none !important;
+}
+
+.onboarding-card p {
+  margin: 6px 0;
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.empty,
+.loading,
+.error {
+  text-align: center;
+  padding: 30px;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+
+.empty {
+  color: #7e22ce;
+}
+
+.loading {
+  color: #6d28d9;
+}
+
+.error {
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+@media (max-width: 768px) {
+  .onboarding-container {
+    padding: 30px 15px;
+  }
+
+  .card-header h3 {
+    font-size: 1rem;
+  }
+
+  .onboarding-card p {
+    font-size: 0.9rem;
+  }
+
+  .onboarding-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.subtitle {
+  color: #000000; 
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1rem;
+}

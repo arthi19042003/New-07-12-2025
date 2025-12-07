@@ -1,0 +1,237 @@
+.custom-navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  display: block; 
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.5px;
+  text-decoration: none; 
+  z-index: 1001;
+}
+
+/* --- Desktop Menu Styles --- */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 35px; 
+}
+
+.navbar-link {
+  font-weight: 500;
+  font-size: 17px;
+  color: #111;
+  text-decoration: none;
+  padding: 5px 0;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.navbar-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #000;
+  transition: 0.3s;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+.navbar-btn {
+  background: transparent;
+  color: #000;
+  border: 2px solid #000;
+  padding: 8px 22px;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.navbar-btn:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* Dropdown specific overrides */
+.navbar-menu .nav-link {
+  font-weight: 500;
+  font-size: 17px;
+  color: #111 !important;
+  padding: 5px 0 !important;
+}
+.navbar-menu .dropdown-menu {
+  border-radius: 10px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-top: 10px !important;
+}
+.navbar-menu .dropdown-item:hover {
+  background-color: #f3e8ff;
+  color: #5b21b6;
+}
+
+/* --- Mobile Sidebar Styles --- */
+
+/* Hamburger Icon - Hidden on Desktop */
+.mobile-menu-icon {
+  display: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Backdrop (Dark overlay) */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1002;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.sidebar-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Slide-out Panel */
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Hidden off-screen initially */
+  width: 280px;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 1003;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  transition: right 0.3s ease-in-out;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-panel.active {
+  right: 0; /* Slide in */
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.sidebar-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4c1d95;
+}
+
+.close-icon {
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.close-icon:hover {
+  color: #000;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Adjust link styles inside sidebar */
+.sidebar-links .navbar-link {
+  font-size: 1.1rem;
+  color: #444;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-links .navbar-link:hover {
+  color: #5b21b6;
+}
+
+/* Specific styles for the mobile login group */
+.mobile-login-group {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mobile-group-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.sidebar-links .navbar-btn {
+  margin-top: 10px;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.logout-link {
+  color: #ef4444 !important; /* Red color for logout */
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px !important;
+}
+
+/* --- Responsive Media Queries --- */
+
+@media (max-width: 960px) {
+  .desktop-only {
+    display: none; /* Hide normal menu */
+  }
+
+  .mobile-menu-icon {
+    display: block; /* Show hamburger */
+  }
+  
+  .navbar-container {
+    padding: 0 20px;
+  }
+}

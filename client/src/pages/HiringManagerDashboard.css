@@ -1,0 +1,206 @@
+/* HiringManagerDashboard.css */
+
+.hm-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  padding-top: 100px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.hm-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hm-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+.hm-subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+/* --- Manage Positions Section (Hero Card) --- */
+.hm-manage-section {
+  max-width: 1400px;
+  margin: 0 auto 40px auto;
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.hm-section-title {
+  font-size: 1.25rem;
+  color: #4c1d95;
+  font-weight: 600;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* "View All Positions" Button - Purple Bg, White Text */
+.hm-btn-view-all {
+  background-color: #7e22ce;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.hm-btn-view-all:hover {
+  background-color: #6b21a8;
+}
+
+/* Form Styles - Single Line Layout */
+.hm-form-row {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end; /* Align inputs and button at the bottom */
+  flex-wrap: nowrap; /* Forces single line on desktop */
+}
+
+.hm-form-group {
+  flex: 1; /* Distribute space evenly */
+  min-width: 0; /* Prevents overflow */
+}
+
+.hm-form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.hm-form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+  height: 42px; /* Consistent height */
+}
+
+.hm-form-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
+}
+
+/* Smaller "Add" Button */
+.hm-btn-plus {
+  background-color: #7e22ce;
+  color: white;
+  width: 42px; /* Square button matching input height */
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hm-btn-plus:hover {
+  background-color: #6b21a8;
+}
+
+/* --- Navigation Grid --- */
+.hm-card-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.hm-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  width: 350px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hm-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #7e22ce;
+}
+
+.hm-card h3 {
+  font-size: 1.25rem;
+  color: #6b21a8;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.hm-card p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.hm-btn {
+  background-color: #7e22ce;
+  color: white;
+  padding: 10px 0;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.hm-btn:hover {
+  background-color: #6b21a8;
+}
+
+/* Responsive: Stack form on mobile */
+@media (max-width: 992px) {
+  .hm-form-row {
+    flex-wrap: wrap;
+  }
+  .hm-form-group {
+    min-width: 45%; /* 2 per row */
+  }
+  .hm-btn-plus {
+    width: 100%; /* Full width button on mobile */
+  }
+}
+
+@media (max-width: 768px) {
+  .hm-form-group {
+    min-width: 100%; /* 1 per row */
+  }
+  .hm-manage-section {
+    padding: 20px;
+  }
+}

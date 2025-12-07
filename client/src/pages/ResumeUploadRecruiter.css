@@ -1,0 +1,175 @@
+.resume-upload-page {
+  background-color: #f9fafc;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px 60px 20px; 
+}
+
+.resume-upload-card {
+  background: #fff;
+  width: 100%;
+  max-width: 700px;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.resume-upload-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #5b21b6; 
+  margin-bottom: 1.8rem;
+}
+
+.resume-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resume-upload-form input[type="text"],
+.resume-upload-form input[type="email"],
+.resume-upload-form input[type="tel"],
+.resume-upload-form input[type="url"],
+.resume-upload-form input[type="number"],
+.resume-upload-form input[type="file"],
+.resume-upload-form select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box; /* Ensure padding doesn't break layout */
+}
+
+.resume-upload-form input:focus,
+.resume-upload-form select:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  outline: none;
+}
+
+/* --- Unified Mobile Number Input Styling --- */
+.phone-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  position: relative;
+}
+
+.phone-prefix-select {
+  padding: 12px 30px 12px 10px !important;
+  background-color: #f9fafb !important;
+  border: 1.5px solid #e5e7eb;
+  border-right: 1px solid #ccc;
+  border-radius: 8px 0 0 8px !important;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235b21b6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 0 !important; 
+}
+
+.phone-group input {
+  flex-grow: 1;
+  width: calc(100% - 140px);
+  border-radius: 0 8px 8px 0 !important;
+  border-left: none;
+  margin-bottom: 0 !important; 
+}
+
+.phone-prefix-select:focus,
+.phone-group input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  z-index: 2;
+}
+/* ----------------------------------------- */
+
+.file-upload {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.file-label {
+  font-weight: 500;
+  color: #4b0082;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.file-name {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.resume-upload-btn {
+  width: 100%;
+  background-color: #7c3aed;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.resume-upload-btn:hover {
+  background-color: #5b21b6;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 0.85rem;
+}
+
+.success-text {
+  color: #16a34a;
+  font-size: 0.9rem;
+}
+
+.resume-upload-message {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .resume-upload-card {
+    padding: 28px 24px;
+  }
+
+  .resume-upload-title {
+    font-size: 1.4rem;
+  }
+}
+
+.mandatory {
+  color: #dc2626; 
+  font-weight: 700;
+  margin-left: 4px;
+}

@@ -1,0 +1,473 @@
+/* CandidateProfile.css */
+
+.profile-page-bg {
+  min-height: 100vh;
+  width: 100%;
+  background-color: transparent; 
+  padding: 1px 20px 40px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.profile-container {
+  width: 900px;
+  max-width: 100%;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #ececec;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* --- Tab Navigation Styles --- */
+.profile-header-tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.profile-heading {
+  font-size: 28px;
+  font-weight: 650;
+  color: #5b2eca;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 5px;
+  border-radius: 25px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 8px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 20px;
+  color: #666;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  background-color: #5b2eca;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(91, 46, 202, 0.25);
+}
+
+.tab-btn:hover:not(.active) {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+/* Animation for Tab Switching */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Card & Section Styles --- */
+.card, .resume-card { 
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+.section-title, .profile-container h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #5b2eca;
+  margin-bottom: 15px;
+}
+
+/* --- Layout Spacing (Fix for Overlapping) --- */
+.form-group {
+  margin-bottom: 20px; /* Adds vertical space between inputs */
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* --- Form Input Styles --- */
+.profile-container input:not([type="checkbox"]):not([type="radio"]), 
+.profile-container textarea, 
+.profile-container select,
+.input { 
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cfcfe8;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: .2s;
+  box-sizing: border-box;
+  margin-bottom: 5px; /* Fallback margin */
+}
+
+/* Specifically for the file input to look better */
+input[type="file"].input {
+    background: #f8f9fa;
+    padding: 10px;
+    height: auto;
+}
+
+.profile-container input:focus, 
+.profile-container textarea:focus, 
+.profile-container select:focus,
+.input:focus {
+  border-color: #5b2eca;
+  box-shadow: 0 0 6px rgba(91,46,202,0.3);
+  outline: none;
+}
+
+/* --- Unified Mobile Number Input Styling --- */
+.phone-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  position: relative;
+}
+
+.phone-prefix-select {
+  padding: 12px 30px 12px 10px !important; 
+  background-color: #fff !important; 
+  border: 1px solid #cfcfe8;
+  border-right: 1px solid #bbb;
+  border-radius: 8px 0 0 8px !important;
+  color: #333;
+  font-weight: 600;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235b2eca%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.phone-group input {
+  flex-grow: 1;
+  width: calc(100% - 140px);
+  border-radius: 0 8px 8px 0 !important;
+  border-left: none;
+}
+
+.phone-prefix-select:focus,
+.phone-group input:focus {
+  border-color: #5b2eca;
+  box-shadow: 0 0 6px rgba(91,46,202,0.3);
+  z-index: 2;
+}
+
+/* --- Layout & Skills --- */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.skills-input {
+  display: flex;
+  gap: 10px;
+}
+.skills-input input {
+  flex-grow: 1;
+}
+
+.profile-container .skill-tag {
+  background: #f3efff; 
+  padding: 5px 10px; 
+  border-radius: 16px; 
+  font-size: 13px; 
+  color: #5b2eca; 
+  border: 1px solid #e0d7ff; 
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px;
+  font-weight: 500;
+}
+
+.profile-container .skill-remove {
+  border: none;
+  background: none;
+  color: #5b2eca; 
+  cursor: pointer;
+  font-size: 16px; 
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.skill-remove:hover { opacity: 1; }
+
+.add-skill-btn {
+  background: linear-gradient(90deg, #5b2eca, #8a4ff2);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+}
+.add-skill-btn:hover { opacity: .9; }
+
+/* --- Buttons --- */
+.profile-container .btn-primary {
+  background: linear-gradient(90deg, #5b2eca, #8a4ff2);
+  border: none;
+  padding: 14px;
+  width: 85%;
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto; 
+  border-radius: 8px; 
+  color: white;
+  font-size: 15px; 
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 18px; 
+}
+
+.profile-container .btn-primary:hover { opacity: .9; }
+
+/* Resume Action Buttons */
+.btn-view, .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* --- Validation & Messages --- */
+.form-group label .mandatory,
+.profile-item-editor label .mandatory {
+  color: #dc2626; /* red */
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+.profile-container input.error,
+.profile-container textarea.error {
+  border-color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+}
+
+.profile-container input.error:focus,
+.profile-container textarea.error:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 6px rgba(220, 38, 38, 0.3) !important;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.form-message {
+  padding: 10px; 
+  border-radius: 8px;
+  margin-bottom: 10px; 
+  font-weight: 500;
+  font-size: 14px; 
+  text-align: center;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-message.success {
+  background: #d7f7e0;
+  color: #155724;
+}
+.form-message.error {
+  background: #ffe0e3;
+  color: #721c24;
+}
+
+/* Empty State Text */
+.empty {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* --- Experience & Education Section --- */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.btn-add-section {
+  background: #eef2ff;
+  color: #4f46e5;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-add-section:hover { background: #e0e7ff; }
+
+.profile-item-editor {
+  padding: 15px;
+  border: 1px dashed #cbb7ff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-item-editor input,
+.profile-item-editor textarea {
+  background: #fdfcff;
+}
+
+.profile-item-editor label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px; 
+}
+
+.profile-item-editor input[type="checkbox"] {
+  width: auto; 
+  margin: 0;
+}
+
+.btn-save-item {
+  background: #4f46e5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-cancel-item {
+  background: #f1f5f9;
+  color: #333;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.profile-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Merged Resume Item Styles */
+.profile-item, .resume-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  background: #faf5ff;
+  border-radius: 8px;
+  border-left: 4px solid #5b2eca;
+  margin-bottom: 10px;
+}
+
+.resume-item.active {
+    background-color: #e0e7ff;
+    border-left-color: #16a34a; /* Green for active resume */
+}
+
+.profile-item h4 {
+  color: #4c1d95;
+  margin-bottom: 4px;
+}
+.profile-item p {
+  color: #555;
+  font-size: 14px;
+}
+.profile-item .item-dates {
+  font-size: 12px;
+  color: #777;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.profile-item > div:last-child,
+.resume-item > .actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-edit-item, .btn-delete-item {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 5px;
+}
+.btn-edit-item { color: #4f46e5; }
+.btn-delete-item { color: #dc2626; }
+
+@media(max-width:768px){
+  .skills-input { flex-direction: column; }
+  .profile-container { width: 95%; padding: 20px; }
+  .profile-item, .resume-item { flex-direction: column; gap: 10px; }
+  .profile-header-tabs { flex-direction: column; align-items: flex-start; }
+}

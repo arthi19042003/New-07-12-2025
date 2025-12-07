@@ -1,0 +1,136 @@
+/* OpenPositions.css */
+
+/* Main Container - Unique Class */
+.op-page-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 80px; 
+}
+
+/* Search & Filter Wrappers */
+.op-search-wrapper, .op-filter-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Input Fields - Specific Class */
+.op-search-input, .op-filter-select {
+  width: 100%;
+  padding-left: 35px !important; 
+  border-radius: 8px !important;
+  border: 1px solid #dee2e6 !important;
+  height: 42px;
+  box-sizing: border-box;
+  background-color: #fff;
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+/* Custom Select Styles */
+.op-filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none !important;
+  padding-right: 35px !important; 
+  cursor: pointer;
+}
+
+/* Focus States */
+.op-search-input:focus, .op-filter-select:focus {
+  border-color: #6d28d9 !important;
+  box-shadow: 0 0 0 0.2rem rgba(109, 40, 217, 0.15) !important;
+  outline: none;
+}
+
+/* Input Icons (Search & Filter inside inputs) */
+.op-search-icon, .op-filter-icon {
+  position: absolute;
+  left: 12px;
+  color: #6c757d;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.op-filter-chevron {
+  position: absolute;
+  right: 15px;
+  color: #6c757d;
+  z-index: 5;
+  pointer-events: none;
+  font-size: 0.8rem;
+}
+
+/* Table Specifics */
+.op-table th {
+    font-weight: 600;
+    color: #495057;
+}
+
+.op-cursor-pointer {
+  cursor: pointer;
+  user-select: none;
+}
+
+.op-cursor-pointer:hover {
+  background-color: #e9ecef;
+}
+
+/* --- ACTION ICONS STYLING (UPDATED) --- */
+
+.op-icon-action {
+  cursor: pointer;
+  font-size: 1.5rem; /* Increased size (was 1.1rem) */
+  transition: transform 0.2s, color 0.2s;
+  padding: 5px; /* Added padding to make click target larger */
+  border-radius: 50%; /* Optional: circular hover effect */
+}
+
+.op-icon-action:hover {
+  transform: scale(1.1); /* Slightly smaller scale since base is bigger */
+  background-color: rgba(0,0,0,0.06); 
+}
+
+/* Edit Icon - Purple */
+.op-icon-edit {
+  color: #6f42c1;
+}
+.op-icon-edit:hover {
+  color: #59359a;
+}
+
+/* Close Icon - Orange/Amber */
+.op-icon-close {
+  color: #fd7e14;
+}
+.op-icon-close:hover {
+  color: #e8590c;
+}
+
+/* Delete Icon - Red */
+.op-icon-delete {
+  color: #dc3545;
+}
+.op-icon-delete:hover {
+  color: #bb2d3b;
+}
+
+/* Save Icon - Green */
+.op-icon-save {
+  color: #198754;
+  font-size: 1.6rem; /* Slightly larger for emphasis */
+}
+.op-icon-save:hover {
+  color: #146c43;
+}
+
+/* Cancel Icon - Gray */
+.op-icon-cancel {
+  color: #6c757d;
+  font-size: 1.6rem;
+}
+.op-icon-cancel:hover {
+  color: #495057;
+}

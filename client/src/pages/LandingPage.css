@@ -1,0 +1,103 @@
+/* Main Container */
+.landing-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #1e1e1e;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  margin-top: 8px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* Search Box (shadow added, border removed) */
+.search-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 25px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+/* Search Input */
+.search-input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 240px;
+  font-size: 16px;
+}
+
+/* Search Button */
+.purple-btn {
+  background: linear-gradient(90deg, #7d40df, #9c6bff);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.purple-btn:hover {
+  opacity: 0.9;
+}
+
+/* Filters Box (shadow added, border removed) */
+.filters-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+/* Filter Inputs */
+.filter-input {
+  padding: 12px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+/* Job Alerts Button */
+.alert-btn {
+  padding: 12px 25px;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  border: 1px solid #ccc;
+  color: rgb(125, 64, 223); 
+}
+
+.alert-btn:hover {
+  background: #f3f1ff;
+}

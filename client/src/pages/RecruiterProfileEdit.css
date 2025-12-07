@@ -1,0 +1,289 @@
+.recruiter-profile-edit-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f9fafc;
+  min-height: 100vh;
+  padding: 110px 20px 60px 20px; 
+}
+
+.recruiter-profile-edit-container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 35px 45px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1.5px solid #e5e7eb;
+}
+
+.recruiter-profile-edit-container h2 {
+  text-align: center;
+  color: #4b0082;
+  font-weight: 700;
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+}
+
+.recruiter-profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box; /* Added ensure padding doesn't overflow */
+}
+
+.form-group input:focus {
+  border-color: #6d28d9;
+  outline: none;
+  box-shadow: 0 0 4px rgba(109, 40, 217, 0.25);
+}
+
+/* --- Unified Mobile Number Input Styling --- */
+.phone-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  position: relative;
+}
+
+.phone-prefix-select {
+  padding: 10px 30px 10px 12px !important;
+  /* Match the inputs in this specific file */
+  background-color: #fff; 
+  border: 1.5px solid #ccc;
+  border-right: 1px solid #aaa; 
+  border-radius: 8px 0 0 8px !important;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* Arrow matched to violet theme */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236d28d9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.phone-group input {
+  flex-grow: 1;
+  width: calc(100% - 140px);
+  border-radius: 0 8px 8px 0 !important;
+  border-left: none;
+}
+
+.phone-prefix-select:focus,
+.phone-group input:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 4px rgba(109, 40, 217, 0.25);
+  z-index: 2;
+}
+/* ----------------------------------------- */
+
+.recruiter-rate-card-row select,
+.form-group select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  background-color: #fff;
+  font-size: 1rem;
+  width: 100%;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%234b0082' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+}
+
+.recruiter-rate-card-row select:focus,
+.form-group select:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 4px rgba(109, 40, 217, 0.25);
+  outline: none;
+}
+
+select option {
+  background-color: #fff;
+  color: #333;
+  padding: 8px;
+}
+
+/* --- UPDATED: Grid Layout for Rate Cards --- */
+.recruiter-rate-card-row {
+  display: grid;
+  /* 2fr = Skills dropdown gets ~60% space
+     1fr = LPA input gets ~30% space
+     auto = Remove button gets minimum necessary space 
+  */
+  grid-template-columns: 2fr 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #faf5ff;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  margin-bottom: 12px;
+}
+
+/* Ensure dropdown fills its column */
+.recruiter-rate-card-row select {
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+
+/* Ensure input fills its column and has min width */
+.recruiter-rate-card-row input {
+  width: 100%;
+  min-width: 100px; /* Ensures LPA text is visible */
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 0 !important;
+}
+
+.recruiter-rate-card-row input:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 4px rgba(109, 40, 217, 0.25);
+  outline: none;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.skill-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.skill-checkbox.checked {
+  border-color: #6d28d9;
+  background-color: #f3e8ff;
+}
+
+.skill-checkbox:hover {
+  background-color: #f3e8ff;
+}
+
+.recruiter-profile-edit-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.recruiter-profile-edit-btn.save {
+  background-color: #6d28d9;
+  color: #fff;
+}
+
+.recruiter-profile-edit-btn.save:hover {
+  background-color: #5b21b6;
+}
+
+.recruiter-profile-edit-btn.cancel {
+  background-color: #e5e7eb;
+  color: #111;
+}
+
+.recruiter-profile-edit-btn.cancel:hover {
+  background-color: #d1d5db;
+}
+
+.ratecard-entry .remove-btn {
+  background-color: #e11d48;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  /* Ensure button fits in grid row */
+  height: fit-content;
+  align-self: center;
+}
+
+.ratecard-entry .remove-btn:hover {
+  background-color: #be123c;
+}
+
+.success-message {
+  color: #4b0082;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Mobile Responsiveness for Grid */
+@media (max-width: 600px) {
+  .recruiter-profile-edit-container {
+    padding: 25px;
+  }
+
+  .recruiter-rate-card-row {
+    /* Stack items vertically on small screens */
+    grid-template-columns: 1fr; 
+    gap: 10px;
+  }
+
+  .recruiter-profile-edit-btn {
+    width: 100%;
+  }
+}

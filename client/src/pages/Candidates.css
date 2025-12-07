@@ -1,0 +1,103 @@
+/* Main Container - Matches Open Positions layout */
+.candidates-page-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  /* Pushes content down to clear fixed Navbar */
+  padding-top: 80px; 
+}
+
+/* Search Box Styling */
+.search-box {
+  position: relative;
+}
+
+.search-input {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.search-input:focus {
+  box-shadow: none;
+  border: 1px solid #86b7fe;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  z-index: 10;
+  opacity: 0.6;
+}
+
+/* Table Styling */
+.candidates-table thead th {
+  background-color: #f8f9fa;
+  color: #4c1d95; /* Deep purple for headers */
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.candidates-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  min-width: 90px;
+}
+
+.status-badge.submitted {
+  background-color: #e0e7ff;
+  color: #3730a3;
+}
+
+.status-badge.shortlisted {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.hired {
+  background-color: #16a34a;
+  color: #fff;
+}
+
+.status-badge.rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Button Styles matching Open Positions */
+.btn-purple {
+  background-color: #6f42c1 !important;
+  border-color: #6f42c1 !important;
+  color: white !important;
+}
+
+.btn-purple:hover {
+  background-color: #59359a !important;
+}
+
+/* Link styling inside table */
+.candidate-link {
+  text-decoration: none;
+  color: #4c1d95;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.candidate-link:hover {
+  color: #6d28d9;
+  text-decoration: underline;
+}

@@ -1,0 +1,22 @@
+/* Ensure the title is purple and stays on one line */
+.create-po-title {
+  color: #4c1d95; /* Deep purple theme color */
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ensure labels are bold */
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Red asterisk helper class if bootstrap's text-danger isn't enough */
+.text-danger {
+  color: #dc3545 !important;
+  font-weight: bold;
+  margin-left: 2px;
+}

@@ -1,0 +1,178 @@
+.interviewer-dashboard-page {
+  padding: 1px 20px 60px 20px;
+  background-color: #f9fafc;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.interviewer-header {
+  text-align: left;
+  max-width: 1200px;
+  margin: 0 auto 30px auto;
+}
+
+.interviewer-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5b21b6;
+  margin-bottom: 8px;
+}
+
+.interviewer-subtitle {
+  color: #6b7280;
+  font-size: 1.05rem;
+}
+
+.schedule-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  /* overflow: hidden; REMOVED to allow table scroll */
+}
+
+/* Wrapper to handle horizontal scrolling */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll on mobile */
+  border-radius: 8px;
+}
+
+.interview-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  /* FIX: Force table to be wide enough to show content */
+  min-width: 900px; 
+}
+
+.interview-table th {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  white-space: nowrap; /* Prevent headers from wrapping */
+}
+
+.interview-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+.interview-table tr:last-child td {
+  border-bottom: none;
+}
+
+.interview-table tr:hover {
+  background-color: #fafaff;
+}
+
+.candidate-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-badge.pending {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #ffedd5;
+}
+
+.status-badge.scheduled {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #dbeafe;
+}
+
+.status-badge.completed {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #d1fae5;
+}
+
+/* Meeting Link Styling */
+.meeting-link {
+  color: #6d28d9;
+  text-decoration: none;
+  font-weight: 500;
+  max-width: 200px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.meeting-link:hover {
+  text-decoration: underline;
+}
+
+.no-link {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Action Button */
+.btn-action {
+  background-color: #6d28d9;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-action:hover {
+  background-color: #5b21b6;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Mobile Responsiveness adjustments */
+@media (max-width: 768px) {
+  .interviewer-dashboard-page {
+    padding-top: 100px; /* Adjust for navbar */
+  }
+
+  .schedule-card {
+    padding: 15px; /* Less padding on mobile card */
+  }
+  
+  .interviewer-title {
+    font-size: 1.5rem;
+  }
+}

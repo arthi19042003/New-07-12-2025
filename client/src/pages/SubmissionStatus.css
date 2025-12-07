@@ -1,0 +1,201 @@
+.submission-status-page {
+  background-color: #f9fafc;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px 60px 20px;
+  box-sizing: border-box;
+}
+
+.submission-status-card {
+  background: #fff;
+  width: 100%;
+  /* Increased max-width to fit the table without scrolling */
+  max-width: 1300px; 
+  /* Reduced padding slightly to maximize internal space */
+  padding: 30px; 
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.submission-status-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #5b21b6; 
+  margin-bottom: 1.8rem;
+}
+
+.submission-status-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.submission-status-input {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  background: #f9fafb;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  /* Ensure inputs have a reasonable width */
+  min-width: 200px; 
+}
+
+.submission-status-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  outline: none;
+}
+
+.submission-status-btn {
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submission-status-btn:hover {
+  background-color: #5b21b6;
+}
+
+.submission-status-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.submission-status-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  /* Prevents text from wrapping unnecessarily */
+  white-space: nowrap; 
+}
+
+.submission-status-table th,
+.submission-status-table td {
+  /* Adjusted padding for better fit */
+  padding: 14px 15px; 
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+.submission-status-table th {
+  background-color: #f3f4f6;
+  color: #111827;
+  font-weight: 600;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.status-badge.submitted {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.status-badge.reviewed {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.rejected {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.submission-status-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.submission-status-view,
+.submission-status-download,
+.submission-status-delete {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  /* Removed margin-right in favor of gap on container */
+  margin-right: 0; 
+  transition: background-color 0.2s ease;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.submission-status-view,
+.submission-status-download {
+  background-color: #7c3aed;
+}
+
+.submission-status-view:hover,
+.submission-status-download:hover {
+  background-color: #5b21b6;
+}
+
+.submission-status-delete {
+  background-color: #ef4444;
+}
+
+.submission-status-delete:hover {
+  background-color: #b91c1c;
+}
+
+@media (max-width: 768px) {
+  .submission-status-card {
+    padding: 20px;
+  }
+
+  .submission-status-title {
+    font-size: 1.4rem;
+  }
+
+  .submission-status-table th,
+  .submission-status-table td {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+  
+  .submission-status-input {
+    width: 100%;
+  }
+
+  .alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+  }
+  .alert-danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+  }
+  .alert-info {
+    background: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #c7d2fe;
+  }
+}

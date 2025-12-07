@@ -1,0 +1,121 @@
+/* ApplicationsDashboard.css */
+
+/* Main Container - Unique Class */
+.ad-dashboard-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 100px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Search Box Container */
+.ad-search-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Search Input Field */
+.ad-search-input {
+  width: 100% !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px !important; /* Space for icon */
+  box-sizing: border-box;
+}
+
+.ad-search-input:focus {
+  box-shadow: none;
+  border: 1px solid #86b7fe;
+}
+
+.ad-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  z-index: 10;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* --- Filter & Sort Box Styling --- */
+
+/* Wrapper relative container */
+.ad-filter-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* The Dropdown Input */
+.ad-filter-select {
+  width: 100% !important;
+  height: 100%;
+  
+  /* Padding to prevent text overlapping icons */
+  padding-left: 45px !important; 
+  padding-right: 40px !important;
+  
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+  /* Hide default browser arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none !important;
+  
+  border: 1px solid #dee2e6 !important;
+  border-radius: 0.375rem !important;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+  background-color: white;
+}
+
+.ad-filter-select:focus {
+  border-color: #86b7fe !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  outline: 0;
+}
+
+/* Filter/Sort Icon (Left Side) */
+.ad-filter-icon-left {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Chevron Arrow (Right Side) */
+.ad-filter-icon-right {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  z-index: 5;
+  pointer-events: none;
+  font-size: 0.8rem;
+}
+
+/* Table Styling - Namespaced */
+.ad-table thead th {
+  font-weight: 600;
+  color: #495057;
+}
+
+@media (max-width: 768px) {
+  .ad-dashboard-container {
+    padding: 20px;
+    padding-top: 120px;
+  }
+}
